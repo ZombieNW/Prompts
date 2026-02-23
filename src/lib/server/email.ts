@@ -12,9 +12,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 		subject: 'verify your email',
 		html: `
 <h2>welcome to prompts, not prompts</h2>
-<br/>
 <p>to verify your email, click this link:</p>
-<br/>
 <a href="${url}">verify your email</a>
 <br/>
 <p>this link expires in 24 hours</p>
