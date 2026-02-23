@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>verify email</title>
+	<title>verify email | Prompts, Not Prompts</title>
 </svelte:head>
 
 <div class="flex h-screen flex-col items-center justify-center text-center">

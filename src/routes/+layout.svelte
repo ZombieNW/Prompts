@@ -13,6 +13,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>Prompts, Not Prompts</title>
 </svelte:head>
 
 {@render children()}

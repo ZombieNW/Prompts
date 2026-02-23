@@ -27,6 +27,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>login | Prompts, Not Prompts</title>
+</svelte:head>
+
 <div class="flex h-screen flex-col items-center justify-center">
 	<div
 		class="flex w-1/4 flex-col items-center justify-center rounded-xl border-2 border-stone-700 p-4"

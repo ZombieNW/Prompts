@@ -3,6 +3,10 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>Prompts, not Prompts</title>
+</svelte:head>
+
 <div class="flex h-screen flex-col items-center justify-center">
 	<p class="font-medium text-stone-400">write about...</p>
 	<h1 class="text-6xl font-bold">a text message you'll never receive</h1>
@@ -14,21 +18,26 @@
 				name="response"
 			/>
 		{:else}
-			<p class="my-4 text-stone-400">verify your email to respond</p>
+			<a
+				href="/verify"
+				class="text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
+			>
+				verify your email to respond
+			</a>
 		{/if}
 	{:else}
 		<div class="my-4 text-stone-400">
 			<a
 				href="/login"
 				class="text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
-				>login</a
-			>
+				>login
+			</a>
 			<span>or</span>
 			<a
 				href="/register"
 				class="text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
-				>register</a
-			>
+				>register
+			</a>
 			<span>to respond</span>
 		</div>
 	{/if}
