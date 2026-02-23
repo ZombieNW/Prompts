@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
+import { RESEND_API_KEY } from '$env/static/private';
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(RESEND_API_KEY);
 
 export async function sendVerificationEmail(email: string, token: string) {
 	const url = `http://localhost:5173/verify?token=${token}`;
