@@ -4,12 +4,12 @@
 	import Footer from '$lib/components/footer.svelte';
 	import Header from '$lib/components/header.svelte';
 
-	import type { LayoutData } from "./$types";
+	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: () => any } = $props();
 </script>
 
-<Header />
+<Header {data} />
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
