@@ -1,9 +1,9 @@
-import Database from "better-sqlite3";
+import Database from 'better-sqlite3';
 
 const db = new Database('./db/app.db', { verbose: console.log });
 
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
+db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS users (
@@ -73,5 +73,5 @@ CREATE INDEX IF NOT EXISTS idx_responses_prompt ON responses(prompt_id);
 CREATE INDEX IF NOT EXISTS idx_user_prompts_user ON user_prompts(user_id);
 `);
 
-console.log("Database initialized.");
+console.log('Database initialized.');
 db.close();

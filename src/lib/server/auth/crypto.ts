@@ -1,9 +1,9 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 
 export function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password).digest("hex");
+	return crypto.createHash('sha256').update(password).digest('hex');
 }
 
 export function randomToken(): string {
-  return crypto.randomBytes(32).toString("hex");
+	return crypto.randomBytes(32).toString('hex');
 }
