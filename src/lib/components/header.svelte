@@ -9,16 +9,16 @@
 			href="/responses"
 			class="transition-colors duration-300 hover:text-stone-200 hover:underline"
 		>
-			Responses
+			responses
 		</a>
 		<a href="/history" class="transition-colors duration-300 hover:text-stone-200 hover:underline">
-			History
+			history
 		</a>
 		<a
 			href={data.user ? '/profile' : '/login'}
 			class="transition-colors duration-300 hover:text-stone-200 hover:underline"
 		>
-			{data.user ? 'Profile' : 'Login'}
+			{data.user ? 'profile' : 'login'}
 		</a>
 	</div>
 </div>

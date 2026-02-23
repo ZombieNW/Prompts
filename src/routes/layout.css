@@ -6,3 +6,12 @@
 	color: var(--color-stone-200);
 	font-family: 'Roboto Slab', serif;
 }
+
+/* Disable inputs changing color when auto filled */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-transition-delay: 9999s;
+	transition-delay: 9999s;
+}
