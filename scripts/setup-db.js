@@ -14,6 +14,9 @@ CREATE TABLE IF NOT EXISTS users (
     is_admin INTEGER DEFAULT 0,
     verified INTEGER DEFAULT 0,
     created_at INTEGER NOT NULL
+    last_verification_sent INTEGER DEFAULT 0;
+    login_attempts INTEGER DEFAULT 0;
+    login_locked_until INTEGER DEFAULT 0;
 );
 
 CREATE TABLE IF NOT EXISTS sessions (
