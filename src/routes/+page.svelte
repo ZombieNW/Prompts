@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+	import Responsearea from '$lib/components/responsearea.svelte';
+</script>
+
+<div class="flex h-screen flex-col items-center justify-center">
+	<p class="font-medium text-stone-400">write about...</p>
+	<h1 class="text-6xl font-bold">a text message you'll never receive</h1>
+	<Responsearea placeholder="write anything you're thinking about" id="response" name="response" />
+</div>
