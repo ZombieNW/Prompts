@@ -9,11 +9,15 @@ export async function sendVerificationEmail(email: string, token: string) {
 	await resend.emails.send({
 		from: 'Prompts, not Prompts <noreply@zombienw.com>',
 		to: email,
-		subject: 'Verify your email',
+		subject: 'verify your email',
 		html: `
-      <h2>Verify your email</h2>
-      <p>Click the link below:</p>
-      <a href="${url}">${url}</a>
-    `
+<h2>welcome to prompts, not prompts</h2>
+<br/>
+<p>to verify your email, click this link:</p>
+<br/>
+<a href="${url}">verify your email</a>
+<br/>
+<p>this link expires in 24 hours</p>
+`
 	});
 }

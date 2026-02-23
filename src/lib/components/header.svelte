@@ -18,7 +18,7 @@
 			href={data.user ? '/profile' : '/login'}
 			class="transition-colors duration-300 hover:text-stone-200 hover:underline"
 		>
-			{data.user ? 'profile' : 'login'}
+			{data.user ? data.user.username : 'login'}
 		</a>
 	</div>
 </div>

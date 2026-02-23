@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Responsearea from '$lib/components/responsearea.svelte';
 	let { data } = $props();
 </script>
@@ -7,11 +7,15 @@
 	<p class="font-medium text-stone-400">write about...</p>
 	<h1 class="text-6xl font-bold">a text message you'll never receive</h1>
 	{#if data.user}
-		<Responsearea
-			placeholder="write anything you're thinking about"
-			id="response"
-			name="response"
-		/>
+		{#if data.user.verified === 1}
+			<Responsearea
+				placeholder="write anything you're thinking about"
+				id="response"
+				name="response"
+			/>
+		{:else}
+			<p class="my-4 text-stone-400">verify your email to respond</p>
+		{/if}
 	{:else}
 		<div class="my-4 text-stone-400">
 			<a
