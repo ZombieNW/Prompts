@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash TEXT NOT NULL,
     is_admin INTEGER DEFAULT 0,
     verified INTEGER DEFAULT 0,
-    created_at INTEGER NOT NULL
-    last_verification_sent INTEGER DEFAULT 0;
-    login_attempts INTEGER DEFAULT 0;
-    login_locked_until INTEGER DEFAULT 0;
+    created_at INTEGER NOT NULL,
+    last_verification_sent INTEGER DEFAULT 0,
+    login_attempts INTEGER DEFAULT 0,
+    login_locked_until INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS sessions (
@@ -66,7 +66,6 @@ CREATE TABLE IF NOT EXISTS responses (
 );
 `);
 
-// indexes
 db.exec(`
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_email_tokens_user ON email_tokens(user_id);
@@ -75,5 +74,4 @@ CREATE INDEX IF NOT EXISTS idx_user_prompts_user ON user_prompts(user_id);
 `);
 
 console.log("Database initialized.");
-
 db.close();
