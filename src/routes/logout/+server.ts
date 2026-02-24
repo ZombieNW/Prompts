@@ -1,10 +1,10 @@
 import { deleteSession } from '$lib/server/auth/session';
 
 export async function POST({ cookies }) {
-	const id = cookies.get('session');
+	const sessionId = cookies.get('session');
 
-	if (id) {
-		deleteSession(id);
+	if (sessionId) {
+		await deleteSession(sessionId);
 	}
 
 	cookies.delete('session', { path: '/' });

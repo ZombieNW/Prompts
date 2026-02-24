@@ -9,7 +9,6 @@ export const actions = {
 			await deleteSession(sessionId);
 		}
 
-		// Clear the cookie and redirect to home
 		cookies.delete('session', { path: '/' });
 
 		throw redirect(303, '/');
