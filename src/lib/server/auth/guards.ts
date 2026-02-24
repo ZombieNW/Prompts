@@ -10,7 +10,7 @@ export function requireAuth(event: RequestEvent) {
 
 export function requireVerified(event: RequestEvent) {
 	const user = requireAuth(event);
-	if (!user.verified) throw redirect(302, '/verify-notice');
+	if (!user.verified) throw redirect(302, '/verify');
 	return user;
 }
 

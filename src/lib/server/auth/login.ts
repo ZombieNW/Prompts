@@ -1,6 +1,9 @@
 import { db } from '../db';
 import { hashPassword } from './crypto';
-import type { User } from '../../types';
+
+const LOCKOUT_DURATION = 1000 * 60 * 10; // 15 minutes
+const MINUTE_DIVISOR = 1000 * 60; // 1 minute
+const ALLOWED_ATTEMPTS = 5;
 
 type LoginResponse =
 	| { type: 'success'; userId: number }
@@ -25,14 +28,14 @@ export function attemptLogin(email: string, password: string): LoginResponse {
 
 	// make sure account wasn't locked
 	if (user.login_locked_until > now) {
-		const remainingMinutes = Math.ceil((user.login_locked_until - now) / 60000);
+		const remainingMinutes = Math.ceil((user.login_locked_until - now) / MINUTE_DIVISOR);
 		return { type: 'locked', remainingMinutes };
 	}
 
 	// verify password
 	if (user.password_hash !== hashPassword(password)) {
 		const attempts = user.login_attempts + 1;
-		const lockUntil = attempts >= 5 ? now + 10 * 60 * 1000 : 0;
+		const lockUntil = attempts >= ALLOWED_ATTEMPTS ? now + LOCKOUT_DURATION : 0;
 
 		db.prepare(
 			`

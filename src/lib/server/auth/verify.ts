@@ -2,8 +2,8 @@ import { db } from '../db';
 import { randomToken } from './crypto';
 import type { EmailToken } from '../../types';
 
-const ONE_MINUTE = 60000;
-const ONE_DAY = 86400000;
+const MINUTE_DIVISOR = 60000;
+const VERIFICATION_TOKEN_DURATION = 1000 * 60 * 60 * 24; // 1 day
 
 export function verifyEmail(token: string): boolean {
 	const record = db.prepare(`SELECT * FROM email_tokens WHERE token = ?`).get(token) as
@@ -39,8 +39,8 @@ export function requestNewVerification(
 
 	// make sure email hasn't been verified recently
 	const now = Date.now();
-	if (lastSent && now - lastSent < ONE_MINUTE) {
-		const secondsLeft = Math.ceil((ONE_MINUTE - (now - lastSent)) / 1000);
+	if (lastSent && now - lastSent < MINUTE_DIVISOR) {
+		const secondsLeft = Math.ceil((MINUTE_DIVISOR - (now - lastSent)) / 1000);
 		return { type: 'rate_limited', secondsLeft };
 	}
 
@@ -50,10 +50,10 @@ export function requestNewVerification(
 		db.prepare(`DELETE FROM email_tokens WHERE user_id = ?`).run(userId);
 		db.prepare(
 			`
-            INSERT INTO email_tokens (token, user_id, expires_at, created_at)
-            VALUES (?, ?, ?, ?)
-        `
-		).run(token, userId, now + ONE_DAY, now);
+                INSERT INTO email_tokens (token, user_id, expires_at, created_at)
+                VALUES (?, ?, ?, ?)
+            `
+		).run(token, userId, now + VERIFICATION_TOKEN_DURATION, now);
 		db.prepare(`UPDATE users SET last_verification_sent = ? WHERE id = ?`).run(now, userId);
 	});
 
