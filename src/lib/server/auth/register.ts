@@ -1,30 +1,40 @@
 import { db } from '../db';
 import { hashPassword, randomToken } from './crypto';
 
-export function registerUser(email: string, username: string, password: string): string {
+interface RegistrationResult {
+	userId: number;
+	token: string;
+}
+
+export function registerUser(
+	email: string,
+	username: string,
+	password: string
+): RegistrationResult {
 	const hash = hashPassword(password);
 	const now = Date.now();
+	const oneDay = 1000 * 60 * 60 * 24;
 
-	const result = db
+	// create user
+	const userResult = db
 		.prepare(
 			`
-    INSERT INTO users (email,username,password_hash,created_at)
-    VALUES (?,?,?,?)
-  `
+        INSERT INTO users (email, username, password_hash, created_at, last_verification_sent)
+        VALUES (?, ?, ?, ?, ?)
+    `
 		)
-		.run(email, username, hash, now);
+		.run(email, username, hash, now, now);
 
-	const userId = result.lastInsertRowid;
-
+	const userId = Number(userResult.lastInsertRowid);
 	const token = randomToken();
 
-	// create email token
+	// verification token email
 	db.prepare(
 		`
-    INSERT INTO email_tokens (token,user_id,expires_at,created_at)
-    VALUES (?,?,?,?)
-  `
-	).run(token, userId, now + 1000 * 60 * 60 * 24, now); // 1 day
+        INSERT INTO email_tokens (token, user_id, expires_at, created_at)
+        VALUES (?, ?, ?, ?)
+    `
+	).run(token, userId, now + oneDay, now);
 
-	return token;
+	return { userId, token };
 }
