@@ -1,4 +1,5 @@
 import { getUserFromSession } from '$lib/server/db';
+import { toSafeUser } from '$lib/server/users';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -7,7 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (sessionId) {
 		const user = getUserFromSession(sessionId);
 		if (user) {
-			event.locals.user = user;
+			event.locals.user = toSafeUser(user);
 		} else {
 			event.cookies.delete('session', { path: '/' });
 		}

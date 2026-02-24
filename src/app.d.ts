@@ -1,12 +1,12 @@
-import type { User } from '$lib/types';
+import type { SafeUser, User } from '$lib/types';
 
 declare global {
 	namespace App {
 		interface Locals {
-			user?: User;
+			user?: SafeUser;
 		}
 		interface PageData {
-			user?: User | null;
+			user?: SafeUser | null;
 		}
 	}
 }

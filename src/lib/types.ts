@@ -25,21 +25,23 @@ export interface EmailToken {
 	created_at: number;
 }
 
-export interface AdminPrompt {
+export interface Prompt {
 	id: number;
-	title: string | null;
 	body: string;
-	prompt_date: string | null;
 	created_by: number | null;
 	created_at: number;
+	scheduled_for: string | null; // ISO date string YYYY-MM-DD
+	active_date: string | null; // ISO date string YYYY-MM-DD, set when prompt becomes daily prompt
+	source: 'admin' | 'community';
 }
 
 export interface UserPrompt {
 	id: number;
-	user_id: number;
 	body: string;
-	approved: number;
+	created_by: number | null;
 	created_at: number;
+	promoted_at: number | null; // when it was moved to main prompts
+	promoted_by: number | null; // admin who approved it
 }
 
 export interface Response {
@@ -48,18 +50,29 @@ export interface Response {
 	prompt_id: number;
 	body: string;
 	created_at: number;
+	updated_at: number;
+	published: number; // 0 = draft, 1 = published
+	likes: number;
 }
 
-export interface AuthUser {
+export interface ResponseLike {
 	id: number;
-	email: string;
-	username: string;
-	verified: number;
-	is_admin: number;
+	response_id: number;
+	user_id: number;
+	created_at: number;
 }
 
-export interface RegisterBody {
-	email: string;
-	username: string;
-	password: string;
+// display
+export interface PromptWithMeta extends Prompt {
+	response_count: number;
+	creator_username?: string | null;
 }
+
+export interface ResponseWithMeta extends Response {
+	username: string;
+	prompt_body: string;
+	like_count: number;
+	user_has_liked?: boolean;
+}
+
+export type SafeUser = Omit<User, 'password_hash'>;
