@@ -16,7 +16,7 @@
 <div class="flex h-screen flex-col items-center justify-center text-center">
 	<div class="flex w-1/4 flex-col rounded-xl border-2 border-stone-700 p-4 text-center">
 		{#if data.user?.verified === 1}
-			<h1 class="text-xl font-semibold">email already verified</h1>
+			<h1 class="text-xl font-semibold">email verified!</h1>
 			<p class="mt-2 text-stone-400">no issues here</p>
 
 			<a href="/" class="btn block">go home</a>

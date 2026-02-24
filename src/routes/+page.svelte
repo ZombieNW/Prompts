@@ -20,7 +20,7 @@
 		{:else}
 			<a
 				href="/verify"
-				class="text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
+				class="my-4 text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
 			>
 				verify your email to respond
 			</a>
