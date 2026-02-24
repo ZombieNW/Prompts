@@ -34,6 +34,21 @@ export function getUserProfile(
 	);
 }
 
+export function validateSession(sessionId: string): { session: Session; user: User } | null {
+	const now = Date.now();
+
+	const session = db
+		.prepare<[string, number], Session>(`SELECT * FROM sessions WHERE id = ? AND expires_at > ?`)
+		.get(sessionId, now);
+
+	if (!session) return null;
+
+	const user = getUserById(session.user_id);
+	if (!user) return null;
+
+	return { session, user };
+}
+
 export function recordFailedLogin(userId: number): void {
 	const LOCK_AFTER = 5;
 	const LOCK_DURATION_MS = 15 * 60 * 1000;

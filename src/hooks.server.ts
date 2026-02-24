@@ -1,14 +1,13 @@
-import { getUserFromSession } from '$lib/server/db';
-import { toSafeUser } from '$lib/server/users';
+import { toSafeUser, validateSession } from '$lib/server/users';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('session');
 
 	if (sessionId) {
-		const user = getUserFromSession(sessionId);
-		if (user) {
-			event.locals.user = toSafeUser(user);
+		const sessionResult = validateSession(sessionId);
+		if (sessionResult) {
+			event.locals.user = toSafeUser(sessionResult.user);
 		} else {
 			event.cookies.delete('session', { path: '/' });
 		}
