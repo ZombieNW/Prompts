@@ -20,3 +20,20 @@ export function createSession(userId: number): string {
 export function deleteSession(sessionId: string): void {
 	db.prepare('DELETE FROM sessions WHERE id = ?').run(sessionId);
 }
+
+export function deleteAllUserSessions(userId: number): void {
+	db.prepare(`DELETE FROM sessions WHERE user_id = ?`).run(userId);
+}
+
+export function purgeExpiredSessions(): number {
+	const result = db.prepare(`DELETE FROM sessions WHERE expires_at <= ?`).run(Date.now());
+	return result.changes;
+}
+
+export function validateSession(sessionId: string): boolean {
+	const now = Date.now();
+	const session = db
+		.prepare(`SELECT * FROM sessions WHERE id = ? AND expires_at > ?`)
+		.get(sessionId, now);
+	return !!session;
+}

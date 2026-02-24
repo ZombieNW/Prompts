@@ -34,47 +34,6 @@ export function getUserProfile(
 	);
 }
 
-export function validateSession(sessionId: string): { session: Session; user: User } | null {
-	const now = Date.now();
-
-	const session = db
-		.prepare<[string, number], Session>(`SELECT * FROM sessions WHERE id = ? AND expires_at > ?`)
-		.get(sessionId, now);
-
-	if (!session) return null;
-
-	const user = getUserById(session.user_id);
-	if (!user) return null;
-
-	return { session, user };
-}
-
-export function createSession(userId: number, sessionId: string, expiresAt: number): Session {
-	const now = Date.now();
-
-	db.prepare(`INSERT INTO sessions (id, user_id, expires_at, created_at) VALUES (?, ?, ?, ?)`).run(
-		sessionId,
-		userId,
-		expiresAt,
-		now
-	);
-
-	return db.prepare<string, Session>(`SELECT * FROM sessions WHERE id = ?`).get(sessionId)!;
-}
-
-export function deleteSession(sessionId: string): void {
-	db.prepare(`DELETE FROM sessions WHERE id = ?`).run(sessionId);
-}
-
-export function deleteAllUserSessions(userId: number): void {
-	db.prepare(`DELETE FROM sessions WHERE user_id = ?`).run(userId);
-}
-
-export function purgeExpiredSessions(): number {
-	const result = db.prepare(`DELETE FROM sessions WHERE expires_at <= ?`).run(Date.now());
-	return result.changes;
-}
-
 export function recordFailedLogin(userId: number): void {
 	const LOCK_AFTER = 5;
 	const LOCK_DURATION_MS = 15 * 60 * 1000;
