@@ -1,16 +1,8 @@
 import type { LayoutServerLoad } from './$types';
-import { getTodaysPrompt, assignDailyPrompt } from '$lib/server/prompts';
-
-const errorMessage = 'future prompt ideas';
+import { getTodaysPrompt } from '$lib/server/prompts';
 
 export const load: LayoutServerLoad = ({ locals }) => {
-	let prompt = getTodaysPrompt() ?? { body: errorMessage };
-
-	// if there's no prompt for today, assign one
-	if (!prompt || prompt.body === errorMessage) {
-		assignDailyPrompt();
-		prompt = getTodaysPrompt() ?? { body: errorMessage };
-	}
+	let prompt = getTodaysPrompt();
 
 	return { user: locals.user ?? null, prompt };
 };

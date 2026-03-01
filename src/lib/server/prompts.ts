@@ -1,41 +1,49 @@
 import type { PromptWithMeta, Prompt } from '$lib/types';
 import { db } from '$lib/server/db';
 
+const errorMessage = 'future prompt ideas';
+const promptRequestPrompt: PromptWithMeta = {
+	id: 0,
+	body: 'future prompt ideas',
+	created_by: 0,
+	created_at: 0,
+	scheduled_for: todayDateString(),
+	active_date: todayDateString(),
+	source: 'admin',
+	response_count: 0,
+	creator_username: null
+};
+
 export function todayDateString(): string {
 	const now = new Date();
 	return now.toISOString().slice(0, 10);
 }
 
 // if one doesn't exist, it returns null, assign daily prompt should be ran first
-export function getTodaysPrompt(): PromptWithMeta | null {
+export function getTodaysPrompt(): PromptWithMeta {
 	const now = new Date();
 	const today = todayDateString();
 
+	// sunday is for asking for more prompts
 	if (now.getDay() === 0) {
-		return {
-			id: 0,
-			body: 'future prompt ideas',
-			created_by: 0,
-			created_at: 0,
-			scheduled_for: today,
-			active_date: today,
-			source: 'admin',
-			response_count: 0,
-			creator_username: null
-		} as PromptWithMeta;
+		return promptRequestPrompt;
 	}
 
 	const row = db
 		.prepare<string, PromptWithMeta>(
 			`SELECT p.*, u.username AS creator_username,
-				(SELECT COUNT(*) FROM responses r WHERE r.prompt_id = p.id AND r.published = 1) AS response_count
-			FROM prompts p
-			LEFT JOIN users u ON u.id = p.created_by
-			WHERE p.active_date = ?`
+                (SELECT COUNT(*) FROM responses r WHERE r.prompt_id = p.id AND r.published = 1) AS response_count
+            FROM prompts p
+            LEFT JOIN users u ON u.id = p.created_by
+            WHERE p.active_date = ?`
 		)
 		.get(today);
 
-	return row ?? null;
+	if (!row) {
+		return assignDailyPrompt() ?? promptRequestPrompt;
+	}
+
+	return row;
 }
 
 export function assignDailyPrompt(): PromptWithMeta | null {
