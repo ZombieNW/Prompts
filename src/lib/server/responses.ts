@@ -1,15 +1,29 @@
 import type { Response, ResponseWithMeta } from '$lib/types';
 import { db } from './db';
 
-export function getUserResponse(userId: number, promptId: number): Response | null {
-	return (
-		db
-			.prepare<
-				[number, number],
-				Response
-			>(`SELECT * FROM responses WHERE user_id = ? AND prompt_id = ?`)
-			.get(userId, promptId) ?? null
-	);
+export function getUserResponse(userId: number, promptId: number): ResponseWithMeta | null {
+	const query = `
+        SELECT 
+            r.*, 
+            u.username, 
+            p.body AS prompt_body,
+            (SELECT COUNT(*) FROM response_likes WHERE response_id = r.id) AS like_count,
+            EXISTS(SELECT 1 FROM response_likes WHERE response_id = r.id AND user_id = :userId) AS user_has_liked
+        FROM responses r
+        JOIN users u ON r.user_id = u.id
+        JOIN prompts p ON r.prompt_id = p.id
+        WHERE r.user_id = :userId AND r.prompt_id = :promptId
+    `;
+
+	const row = db.prepare(query).get({ userId, promptId }) as any;
+
+	if (!row) return null;
+
+	return {
+		...row,
+		user_has_liked: !!row.user_has_liked,
+		like_count: Number(row.like_count)
+	};
 }
 
 export function getResponseById(responseId: number): ResponseWithMeta | null {
@@ -82,6 +96,34 @@ export function deleteResponse(responseId: number, userId: number, isAdmin = fal
 	const args = isAdmin ? [responseId] : [responseId, userId];
 	const result = db.prepare(query).run(...args);
 	return result.changes > 0;
+}
+
+export function metaResponseFromResponse(response: Response): ResponseWithMeta {
+	const likeCountResult = db
+		.prepare(`SELECT COUNT(*) AS count FROM response_likes WHERE response_id = ?`)
+		.get(response.id) as { count: number } | undefined;
+
+	const like_count = likeCountResult?.count ?? 0;
+
+	const userHasLikedResult = db
+		.prepare(`SELECT id FROM response_likes WHERE response_id = ? AND user_id = ?`)
+		.get(response.id, response.user_id);
+
+	const userResult = db.prepare(`SELECT username FROM users WHERE id = ?`).get(response.user_id) as
+		| { username: string }
+		| undefined;
+
+	const promptResult = db
+		.prepare(`SELECT body FROM prompts WHERE id = ?`)
+		.get(response.prompt_id) as { body: string } | undefined;
+
+	return {
+		...response,
+		username: userResult?.username ?? 'unknown',
+		prompt_body: promptResult?.body ?? 'unknown',
+		like_count,
+		user_has_liked: !!userHasLikedResult
+	};
 }
 
 export function getResponsesForPrompt(
