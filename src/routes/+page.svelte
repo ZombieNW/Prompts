@@ -8,17 +8,28 @@
 </svelte:head>
 
 <div class="flex h-screen flex-col items-center justify-center">
-	<p class="font-medium text-stone-400">write about...</p>
+	{#if data.userResponse === null}
+		<p class="font-medium text-stone-400">write about...</p>
+	{:else}
+		<p class="font-medium text-stone-400">today's prompt</p>
+	{/if}
 	<a href="/prompts" class="text-6xl font-bold transition-colors duration-300 hover:text-stone-400"
 		>{data.prompt.body}</a
 	>
 	{#if data.user}
-		{#if data.user.verified === 1}
+		{#if data.user.verified === 1 && data.userResponse === null}
 			<Responsearea
 				placeholder="write anything you're thinking about"
 				id="response"
 				name="response"
 			/>
+		{:else if data.user.verified === 1 && data.userResponse !== null}
+			<a
+				href="/responses"
+				class="my-4 text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
+			>
+				view responses
+			</a>
 		{:else}
 			<a
 				href="/verify"
