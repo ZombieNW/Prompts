@@ -7,11 +7,11 @@ const promptRequestPrompt: PromptWithMeta = {
 	body: 'future prompt ideas',
 	created_by: 0,
 	created_at: 0,
-	scheduled_for: todayDateString(),
-	active_date: todayDateString(),
+	scheduled_for: null,
+	active_date: null,
 	source: 'admin',
 	response_count: 0,
-	creator_username: null
+	creator_username: 'System'
 };
 
 export function todayDateString(): string {
@@ -19,42 +19,33 @@ export function todayDateString(): string {
 	return now.toISOString().slice(0, 10);
 }
 
-// if one doesn't exist, it returns null, assign daily prompt should be ran first
 export function getTodaysPrompt(): PromptWithMeta {
 	const now = new Date();
 	const today = todayDateString();
 
-	// sunday is for asking for more prompts
-	if (now.getDay() === 0) {
-		return promptRequestPrompt;
-	}
+	// sunday is for begging for prompts
+	if (now.getDay() === 0) return promptRequestPrompt;
 
-	const row = db
-		.prepare<string, PromptWithMeta>(
-			`SELECT p.*, u.username AS creator_username,
-                (SELECT COUNT(*) FROM responses r WHERE r.prompt_id = p.id AND r.published = 1) AS response_count
-            FROM prompts p
-            LEFT JOIN users u ON u.id = p.created_by
-            WHERE p.active_date = ?`
-		)
-		.get(today);
+	// get todays
+	const existing = fetchPromptMetadata('active_date', today);
+	if (existing) return existing;
 
-	if (!row) {
-		return assignDailyPrompt() ?? promptRequestPrompt;
-	}
+	// if not, get a new one
+	const newlyAssigned = assignDailyPrompt();
 
-	return row;
+	// if there's none left, beg for more
+	return newlyAssigned ?? promptRequestPrompt;
 }
 
 export function assignDailyPrompt(): PromptWithMeta | null {
 	const today = todayDateString();
 
-	// check if there's already a prompt for today
-	const existing = getTodaysPrompt();
-	if (existing) return existing;
+	const assignedId = db.transaction((): number | null => {
+		// check if there's one today
+		const existing = fetchPromptMetadata('active_date', today);
+		if (existing) return existing?.id;
 
-	const assign = db.transaction(() => {
-		// msee if there's one scheduled for today
+		// see if there's one scheudled today
 		let candidate = db
 			.prepare<
 				string,
@@ -62,7 +53,7 @@ export function assignDailyPrompt(): PromptWithMeta | null {
 			>(`SELECT * FROM prompts WHERE scheduled_for = ? AND active_date IS NULL LIMIT 1`)
 			.get(today);
 
-		// grab a random unused prompt
+		// get a random unsed one if nothing is scheduled
 		if (!candidate) {
 			candidate = db
 				.prepare<
@@ -74,13 +65,33 @@ export function assignDailyPrompt(): PromptWithMeta | null {
 
 		if (!candidate) return null;
 
-		// mark the prompt as active
+		// mark it as active
 		db.prepare(`UPDATE prompts SET active_date = ? WHERE id = ?`).run(today, candidate.id);
 
-		return getTodaysPrompt();
-	});
+		return candidate.id;
+	})();
 
-	return assign();
+	// Return the full object with metadata using our helper
+	return assignedId ? fetchPromptMetadata('id', assignedId) : null;
+}
+
+function fetchPromptMetadata(
+	column: 'active_date' | 'id',
+	value: string | number
+): PromptWithMeta | null {
+	const row = db
+		.prepare<any, PromptWithMeta>(
+			`
+        SELECT p.*, u.username AS creator_username,
+            (SELECT COUNT(*) FROM responses r WHERE r.prompt_id = p.id AND r.published = 1) AS response_count
+        FROM prompts p
+        LEFT JOIN users u ON u.id = p.created_by
+        WHERE p.${column} = ?
+    `
+		)
+		.get(value);
+
+	return row ?? null;
 }
 
 export function getPastPrompts(limit = 30, offset = 0): PromptWithMeta[] {
