@@ -9,7 +9,9 @@
 
 <div class="flex h-screen flex-col items-center justify-center">
 	<p class="font-medium text-stone-400">write about...</p>
-	<h1 class="text-6xl font-bold">{data.prompt.body}</h1>
+	<a href="/prompts" class="text-6xl font-bold transition-colors duration-300 hover:text-stone-400"
+		>{data.prompt.body}</a
+	>
 	{#if data.user}
 		{#if data.user.verified === 1}
 			<Responsearea

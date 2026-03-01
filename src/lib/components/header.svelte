@@ -6,23 +6,8 @@
 <div
 	class="absolute top-4 flex w-full items-center justify-center px-6 py-1 text-stone-400 md:justify-between"
 >
-	<a href="/" class="hidden md:block">Prompts, Not Prompts</a>
+	<a href="/" class="">Prompts, Not Prompts</a>
 	<div class="flex gap-6">
-		<a
-			href="/"
-			class="block transition-colors duration-300 hover:text-stone-200 hover:underline md:hidden"
-		>
-			home
-		</a>
-		<a
-			href="/responses"
-			class="transition-colors duration-300 hover:text-stone-200 hover:underline"
-		>
-			responses
-		</a>
-		<a href="/history" class="transition-colors duration-300 hover:text-stone-200 hover:underline">
-			history
-		</a>
 		<div class="group relative">
 			<a
 				href={data.user ? '/profile' : '/login'}
