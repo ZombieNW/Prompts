@@ -8,7 +8,22 @@ export function todayDateString(): string {
 
 // if one doesn't exist, it returns null, assign daily prompt should be ran first
 export function getTodaysPrompt(): PromptWithMeta | null {
+	const now = new Date();
 	const today = todayDateString();
+
+	if (now.getDay() === 0) {
+		return {
+			id: 0,
+			body: 'future prompt ideas',
+			created_by: 0,
+			created_at: 0,
+			scheduled_for: today,
+			active_date: today,
+			source: 'admin',
+			response_count: 0,
+			creator_username: null
+		} as PromptWithMeta;
+	}
 
 	const row = db
 		.prepare<string, PromptWithMeta>(
