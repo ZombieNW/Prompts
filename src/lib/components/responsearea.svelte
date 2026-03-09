@@ -2,9 +2,29 @@
 	import { invalidateAll } from '$app/navigation';
 
 	export let value: string = '';
-	export let placeholder: string = '';
 	export let id: string = '';
 	export let name: string = '';
+
+	const wittyLines = [
+		"write anything you're talking about",
+		'how does this make you feel?',
+		"what's on your mind?",
+		"it's okay, no one's going to grade it",
+		'just start typing',
+		'even one little sentence is enough',
+		'no wrong answers',
+		'just start typing',
+		'this box has no judgement',
+		'put the inside thought here',
+		'write something real',
+		'thoughts over content',
+		'just write',
+		'say the quiet thought',
+		'start anywhere',
+		'write before you overthink it'
+	];
+
+	export let placeholder: string = wittyLines[Math.floor(Math.random() * wittyLines.length)];
 
 	function handleSubmit() {
 		if (value.length > 0) {

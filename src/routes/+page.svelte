@@ -18,11 +18,7 @@
 	>
 	{#if data.user}
 		{#if data.user.verified === 1 && data.userResponse === null}
-			<Responsearea
-				placeholder="write anything you're thinking about"
-				id="response"
-				name="response"
-			/>
+			<Responsearea id="response" name="response" />
 		{:else if data.user.verified === 1 && data.userResponse !== null}
 			<a
 				href="/responses"
