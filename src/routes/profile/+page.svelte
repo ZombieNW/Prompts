@@ -1,4 +1,6 @@
 <script>
+	import Response from '$lib/components/Response.svelte';
+
 	let { data } = $props();
 
 	function logout() {
@@ -19,4 +21,11 @@
 		>
 	</div>
 	<hr class="mb-6 border-stone-700" />
+
+	<h2>Responses</h2>
+	<ul class="mb-6">
+		{#each data.userResponses as response}
+			<li><Response {response} /></li>
+		{/each}
+	</ul>
 </div>
