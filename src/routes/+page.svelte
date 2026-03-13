@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Responsearea from '$lib/components/responsearea.svelte';
+	import Responsearea from '$lib/components/ResponseArea.svelte';
 	let { data } = $props();
 </script>
 
@@ -7,7 +7,7 @@
 	<title>Prompts, not Prompts</title>
 </svelte:head>
 
-<div class="flex h-screen flex-col items-center justify-center">
+<div class="flex h-screen w-full flex-col items-center justify-center px-4">
 	{#if data.userResponse === null}
 		<p class="font-medium text-stone-400">write about...</p>
 	{:else}

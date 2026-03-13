@@ -1,5 +1,5 @@
 <script>
-	import Response from '$lib/components/Response.svelte';
+	import Response from '$lib/components/ResponseBox.svelte';
 	let { data } = $props();
 </script>
 

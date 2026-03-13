@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import Footer from '$lib/components/footer.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import Header from '$lib/components/header.svelte';
 
 	import type { LayoutData } from './$types';

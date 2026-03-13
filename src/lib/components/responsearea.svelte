@@ -26,12 +26,12 @@
 
 	export let placeholder: string = wittyLines[Math.floor(Math.random() * wittyLines.length)];
 
-	function handleSubmit() {
+	async function handleSubmit() {
 		if (value.length > 0) {
 			const formData = new FormData();
 			formData.append('body', value);
 
-			fetch('?/createResponse', {
+			await fetch('?/createResponse', {
 				method: 'POST',
 				body: formData
 			});
@@ -43,9 +43,14 @@
 </script>
 
 <div
-	class="relative mt-12 min-h-1/6 w-full rounded-xl border-2 border-stone-800 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:w-1/2"
+	class="relative mt-12 min-h-1/3 w-full max-w-2xl rounded-xl border-2 border-stone-800 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:min-h-1/4 md:w-1/2"
 >
-	<textarea bind:value class="h-full w-full resize-none p-4 outline-none" {placeholder} {id} {name}
+	<textarea
+		bind:value
+		class="h-full w-full resize-none bg-transparent p-4 outline-none"
+		{placeholder}
+		{id}
+		{name}
 	></textarea>
 
 	<div class="absolute right-2 bottom-2">

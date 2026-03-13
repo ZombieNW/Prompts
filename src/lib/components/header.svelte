@@ -3,7 +3,7 @@
 </script>
 
 <div
-	class="absolute top-4 flex w-full items-center justify-center px-6 py-1 text-stone-400 md:justify-between"
+	class="absolute top-4 flex w-full flex-col items-center justify-center gap-2 px-6 py-1 text-stone-400 md:flex-row md:justify-between"
 >
 	<a href="/" class="">Prompts, Not Prompts</a>
 	<div class="flex gap-6">
