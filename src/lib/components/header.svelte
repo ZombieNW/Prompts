@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	let showSubMenu = false;
 </script>
 
 <div
@@ -15,28 +14,6 @@
 			>
 				{data.user ? data.user.username : 'login'}
 			</a>
-
-			{#if data.user}
-				<div class="invisible absolute right-0 w-full pt-2 group-hover:visible">
-					<div class="w-full pt-2 text-right">
-						{#if data.user.is_admin}
-							<a
-								href="/admin"
-								class="transition-colors duration-300 hover:text-stone-200 hover:underline"
-							>
-								admin
-							</a>
-						{/if}
-						<form method="POST" action="/logout">
-							<button
-								type="submit"
-								class="block w-full py-2 pl-2 text-right transition-colors duration-300 hover:cursor-pointer hover:text-stone-300 hover:underline"
-								>logout</button
-							>
-						</form>
-					</div>
-				</div>
-			{/if}
 		</div>
 	</div>
 </div>
