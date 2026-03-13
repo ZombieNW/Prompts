@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ResponseWithMeta } from '$lib/types';
-	export let response: ResponseWithMeta;
+	import type { PromptWithMeta } from '$lib/types';
+	export let prompt: PromptWithMeta;
 
 	function formatTimestampToLongDate(timestamp: number): string {
 		const date = new Date(timestamp);
@@ -21,10 +21,11 @@
 </script>
 
 <div class="my-4 rounded-xl border-2 border-stone-700 p-4">
-	<div class="flex justify-between">
-		<p class="text-stone-400">Post by <span class="text-stone-300">{response.username}</span></p>
-		<p>"<span class="text-stone-300">{response.prompt_body}</span>"</p>
-		<p class="text-stone-400">{formatTimestampToLongDate(response.created_at)}</p>
+	<div class="flex flex-row-reverse justify-between">
+		<p class="text-stone-400">{formatTimestampToLongDate(prompt.created_at)}</p>
+		{#if prompt.source !== 'admin'}
+			<p class="text-stone-400">{prompt.created_by}</p>
+		{/if}
 	</div>
-	<p class="my-4 text-stone-300">{response.body}</p>
+	<p class="my-4 text-stone-300">{prompt.body}</p>
 </div>
