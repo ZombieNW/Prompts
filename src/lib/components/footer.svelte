@@ -1,4 +1,7 @@
-<div class="absolute bottom-4 flex w-full flex-col items-center justify-center">
+<div
+	class="absolute bottom-4 flex w-full flex-col items-center justify-center"
+	style="view-transition-name: footer"
+>
 	<p class="text-stone-600">
 		by <a
 			class="transition-colors duration-300 hover:text-stone-400 hover:underline"

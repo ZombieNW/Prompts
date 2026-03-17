@@ -2,11 +2,23 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Footer from '$lib/components/Footer.svelte';
-	import Header from '$lib/components/header.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import { onNavigate } from '$app/navigation';
 
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: () => any } = $props();
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 </script>
 
 <Header {data} />
