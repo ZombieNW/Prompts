@@ -43,7 +43,7 @@
 </script>
 
 <div
-	class="relative mt-12 min-h-1/3 w-full max-w-2xl rounded-xl border-2 border-stone-800 bg-stone-900/50 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:min-h-1/4 md:w-1/2"
+	class="relative mt-12 min-h-1/3 w-full max-w-2xl rounded-xl bg-stone-900/50 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:min-h-1/4 md:w-1/2"
 >
 	<textarea
 		bind:value
