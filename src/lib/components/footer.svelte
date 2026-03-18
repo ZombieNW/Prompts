@@ -1,5 +1,5 @@
 <div
-	class="absolute bottom-4 flex w-full flex-col items-center justify-center"
+	class="fixed bottom-4 flex w-full flex-col items-center justify-center"
 	style="view-transition-name: footer"
 >
 	<p class="text-stone-600">

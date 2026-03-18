@@ -20,12 +20,20 @@
 	}
 </script>
 
-<div class="my-4 rounded-xl border-2 border-stone-700 p-4">
-	<div class="flex flex-row-reverse justify-between">
-		<p class="text-stone-400">{formatTimestampToLongDate(prompt.created_at)}</p>
+<div class="my-12 rounded-xl bg-stone-900/50 p-4">
+	<div class="flex flex-row justify-between">
+		<div class="flex flex-col">
+			<p class="text-stone-400">{formatTimestampToLongDate(prompt.created_at)}</p>
+			<p class="my-2 text-stone-400">"<span class="text-stone-300">{prompt.body}</span>"</p>
+		</div>
+	</div>
+
+	<div class="flex flex-row justify-end">
+		<p>{prompt.response_count} responses</p>
 		{#if prompt.source !== 'admin'}
-			<p class="text-stone-400">{prompt.created_by}</p>
+			<p class="pl-4 text-stone-400">{prompt.created_by}</p>
 		{/if}
 	</div>
-	<p class="my-4 text-stone-300">{prompt.body}</p>
+
+	<hr class="my-4 border-stone-700" />
 </div>
