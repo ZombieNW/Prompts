@@ -11,9 +11,7 @@
 	<h1>Today's Prompt</h1>
 	<PromptBox prompt={data.todaysPrompt} />
 	<h1>Previous Prompts</h1>
-	<ul class="mb-6">
-		{#each data.prompts as prompt}
-			<li><PromptBox {prompt} /></li>
-		{/each}
-	</ul>
+	{#each data.prompts as prompt}
+		<PromptBox {prompt} />
+	{/each}
 </div>
