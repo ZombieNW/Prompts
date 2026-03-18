@@ -43,7 +43,7 @@
 </script>
 
 <div
-	class="relative mt-12 min-h-1/3 w-full max-w-2xl rounded-xl border-2 border-stone-800 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:min-h-1/4 md:w-1/2"
+	class="relative mt-12 min-h-1/3 w-full max-w-2xl rounded-xl border-2 border-stone-800 bg-stone-900/50 text-stone-200 transition-colors duration-300 outline-none focus-within:border-stone-700 md:min-h-1/4 md:w-1/2"
 >
 	<textarea
 		bind:value
@@ -56,7 +56,7 @@
 	<div class="absolute right-2 bottom-2">
 		<button
 			on:click={handleSubmit}
-			class="w-28 rounded-xl bg-stone-700 py-2 text-white outline-2 outline-stone-800 transition-colors duration-300 hover:cursor-pointer hover:bg-stone-800"
+			class="w-28 rounded-xl bg-stone-800 py-2 text-white outline-2 outline-stone-900 transition-colors duration-300 hover:cursor-pointer hover:bg-stone-900 hover:outline-stone-800"
 		>
 			Send
 		</button>
