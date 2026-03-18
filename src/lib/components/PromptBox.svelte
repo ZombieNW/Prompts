@@ -20,7 +20,7 @@
 	}
 </script>
 
-<div class="my-12 rounded-xl bg-stone-900/50 p-4">
+<div class="my-4 rounded-xl bg-stone-900/50 p-4">
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-col">
 			<p class="text-stone-400">{formatTimestampToLongDate(prompt.created_at)}</p>

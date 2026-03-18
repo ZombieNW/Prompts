@@ -4,7 +4,7 @@
 	let { data } = $props();
 </script>
 
-<div class="mx-auto mt-26 flex w-2/3 flex-col text-stone-400">
+<div class="mx-auto my-26 flex w-2/3 flex-col text-stone-400">
 	<h1 class="text-2xl text-stone-300">Prompts</h1>
 	<hr class="mb-6 border-stone-700" />
 
