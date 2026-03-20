@@ -1,4 +1,5 @@
 import { getPromptById } from '$lib/server/prompts';
+import { getResponsesForPrompt } from '$lib/server/responses';
 import { error } from '@sveltejs/kit';
 
 export const load = async (event) => {
@@ -9,8 +10,11 @@ export const load = async (event) => {
 		throw error(404, 'prompt not found');
 	}
 
+	const responses = await getResponsesForPrompt(prompt.id);
+
 	return {
 		user,
-		prompt
+		prompt,
+		responses
 	};
 };
