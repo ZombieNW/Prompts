@@ -21,7 +21,7 @@
 			<Responsearea id="response" name="response" />
 		{:else if data.user.verified === 1 && data.userResponse !== null}
 			<a
-				href="/responses"
+				href={`/prompts/${data.prompt.id}`}
 				class="my-4 text-stone-300 transition-colors duration-300 hover:text-stone-400 hover:underline"
 			>
 				view responses
