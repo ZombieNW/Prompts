@@ -11,6 +11,7 @@ export const load = async (event) => {
 	return {
 		user,
 		responses,
-		userResponse
+		userResponse,
+		todaysPrompt
 	};
 };
