@@ -47,7 +47,7 @@
 		<input bind:value={password} type="password" placeholder="password" />
 		<button on:click={register} disabled={loading}>{loading ? 'registering...' : 'register'}</button
 		>
-		<p><a href="/login">log in instead</a></p>
+		<p><a href="/login" class="text-stone-400 hover:underline hover:text-stone-300 transition-colors">log in</a></p>
 	</div>
 </div>
 

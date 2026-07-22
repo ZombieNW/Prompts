@@ -37,7 +37,7 @@
 	});
 </script>
 
-<div class="relative my-4 rounded-xl bg-stone-900/50 p-4">
+<div class="relative my-4 rounded-xl p-4">
 	<div class="flex flex-col gap-3">
 		<!-- User, Prompt, Time -->
 		<div class="flex items-center justify-between">
@@ -74,7 +74,7 @@
 		<div class="flex justify-end gap-2">
 			<button
 				type="button"
-				class="group flex items-center gap-1.5 transition-colors {response.user_has_liked
+				class="group flex items-center gap-1.5 transition-colors hover:cursor-pointer {response.user_has_liked
 					? 'text-rose-400'
 					: 'text-stone-500 hover:text-rose-400'}"
 				aria-label={response.user_has_liked ? 'Unlike' : 'Like'}
