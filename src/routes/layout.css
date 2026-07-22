@@ -3,6 +3,7 @@
 
 :root {
 	background-color: var(--color-stone-950);
+	background-image: linear-gradient(0deg, var(--color-stone-950) 0%, var(--color-stone-900) 100%);
 	color: var(--color-stone-200);
 	font-family: 'Roboto Slab', serif;
 }
